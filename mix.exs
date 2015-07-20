@@ -12,6 +12,7 @@ defmodule Expand.Mixfile do
       elixir: "~> 1.0",
       package: package,
       deps: deps,
+      contributors: []
     ]
   end
 
