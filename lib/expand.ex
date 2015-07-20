@@ -20,7 +20,7 @@ defmodule Expand.Mixin do
 
       defp _to_string(item, i) when is_tuple(item) do
         _in(i) <> "{\n" <>
-        _list_dump(Tuple.to_list(item), i + 1) <>
+        _list_dump(Tuple.to_list(item), i + 1) <> "\n" <>
         _in(i) <> "}"
       end
 
@@ -33,9 +33,10 @@ defmodule Expand.Mixin do
           Keyword.keyword?(item) ->
             _keyword(item, i + 1)
           true ->
-            _list_dump(item, i + 1)
+            _list_dump(item, i + 1) <>
+            "\n"
         end
-        <> _in(i) <> "\n]"
+        <> _in(i) <> "]"
       end
 
       """
@@ -67,9 +68,13 @@ defmodule Expand.Mixin do
       defp _to_string(item, i) when is_map(item) do
         list = Map.to_list(item)
         if Keyword.keyword?(list) do
-          "%{" <> _keyword(list, i) <> "}"
+          _in(i) <> "%{\n" <>
+          _keyword(list, i + 1) <>
+          _in(i) <> "}"
         else
-          "%{" <> _map(list, i) <> "}"
+          _in(i) <> "%{\n" <>
+          _map(list, i + 1) <>
+          _in(i) <> "}"
         end
       end
 
@@ -88,11 +93,15 @@ defmodule Expand.Mixin do
       end
 
       defp _keyword([head], i) do
-        _keyword_pair(head, i)
+        _keyword_pair(head, i) <> "\n"
       end
 
       defp _keyword([head | tail], i) do
         _keyword_pair(head, i) <> ",\n" <> _keyword(tail, i)
+      end
+
+      defp _keyword([], i) do
+        ""
       end
 
       defp _map_pair({k, v}, i) do
@@ -100,7 +109,7 @@ defmodule Expand.Mixin do
       end
 
       defp _map([head], i) do
-        _map_pair(head, i)
+        _map_pair(head, i) <> "\n"
       end
 
       defp _map([head | tail], i) do

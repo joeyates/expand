@@ -31,14 +31,14 @@ defmodule ExpandTest do
   end
 
   test ".it pretty prints atom-keyed maps" do
-    assert Expand.it(%{a: 1, b: 2}) == "%{a:\n  1,\nb:\n  2}"
+    assert Expand.it(%{a: 1, b: 2}) == "%{\n  a:\n    1,\n  b:\n    2\n}"
   end
 
   test ".it pretty prints non-atom-keyed maps" do
-    assert Expand.it(%{"a" => 1, "b" => 2}) == "%{\"a\" =>\n  1,\n\"b\" =>\n  2}"
+    assert Expand.it(%{"a" => 1, "b" => 2}) == "%{\n  \"a\" =>\n    1,\n  \"b\" =>\n    2\n}"
   end
 
   test ".it pretty prints tuples" do
-    assert Expand.it({1, 2}) == "{\n  1,\n  2}"
+    assert Expand.it({1, 2}) == "{\n  1,\n  2\n}"
   end
 end
