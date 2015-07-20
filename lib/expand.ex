@@ -41,7 +41,7 @@ defmodule Expand.Mixin do
 
       """
       If all sequences of bytes are valid UTF-8, handle
-      as a string, otherwise, print out the butes as a list.
+      as a string, otherwise, print out the bytes as a list.
       """
       defp _to_string(item, i) when is_binary(item) do
         cond do
