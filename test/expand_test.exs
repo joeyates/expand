@@ -23,7 +23,7 @@ defmodule ExpandTest do
   end
 
   test ".it pretty prints lists" do
-    assert Expand.it([1, 2, 3]) == "[\n  1,\n  2,\n  3\n]"
+    assert Expand.it([1, 2]) == "[\n  1,\n  2\n]"
   end
 
   test ".it pretty prints keyword lists" do
@@ -40,5 +40,17 @@ defmodule ExpandTest do
 
   test ".it pretty prints tuples" do
     assert Expand.it({1, 2}) == "{\n  1,\n  2\n}"
+  end
+
+  test ".it indents lists inside lists" do
+    assert Expand.it([[1, 2]]) == "[\n  [\n    1,\n    2\n  ]\n]"
+  end
+
+  test ".it indents lists inside tuples" do
+    assert Expand.it({[1, 2]}) == "{\n  [\n    1,\n    2\n  ]\n}"
+  end
+
+  test ".it indents nested keyword lists" do
+    assert Expand.it({[a: 1, b: 2]}) == "{\n  [\n    a:\n      1,\n    b:\n      2\n  ]\n}"
   end
 end
