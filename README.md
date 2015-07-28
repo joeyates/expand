@@ -1,5 +1,8 @@
-# expand
+# expand  [![Build Status](https://api.travis-ci.org/joeyates/expand.svg)][Continuous Integration]
 A pretty printer for Elixir
+
+[Source Code]: https://github.com/joeyates/expand "Source code at GitHub"
+[Continuous Integration]: http://travis-ci.org/joeyates/expand "Build status by Travis-CI"
 
 Primitive types are printed one item per line.
 
