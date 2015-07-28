@@ -1,0 +1,9 @@
+language: elixir
+elixir: 1.0.4
+services:
+  - redis-server
+otp_release:
+  - 17.1
+sudo: false
+script:
+  - mix test
