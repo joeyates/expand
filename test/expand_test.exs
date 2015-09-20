@@ -6,6 +6,10 @@ defmodule ExpandTest do
     assert Expand.it("hello") == "\"hello\""
   end
 
+  test ".it pretty prints character lists" do
+    assert Expand.it('hello') == "'hello'"
+  end
+
   test ".it pretty prints binaries" do
     assert Expand.it(<<55, 128>>) == "<<55, 128>>"
   end

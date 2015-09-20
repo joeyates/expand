@@ -4,6 +4,19 @@ A pretty printer for Elixir
 [Source Code]: https://github.com/joeyates/expand "Source code at GitHub"
 [Continuous Integration]: http://travis-ci.org/joeyates/expand "Build status by Travis-CI"
 
+# Add to a project
+
+mix.exs:
+```
+...
+  defp deps do
+    [
+      {:expand, ">= 0.0.3"}
+    ]
+  end
+...
+```
+
 Primitive types are printed one item per line.
 
 For example, here is the abbreviated output for `String.__info__(:functions)`:

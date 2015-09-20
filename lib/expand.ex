@@ -25,18 +25,22 @@ defmodule Expand.Mixin do
       end
 
       """
-      Distinguish between keyword lists and other lists.
+      Distinguish between character lists, keyword lists and other lists.
       """
       defp _to_string(item, i) when is_list(item) do
-        _in(i) <> "[\n" <>
-        cond do
-          Keyword.keyword?(item) ->
-            _keyword(item, i + 1)
-          true ->
-            _list_dump(item, i + 1) <>
-            "\n"
+        if Printable.printable?(item) do
+          _in(i) <> "'" <> to_string(item) <> "'"
+        else
+          _in(i) <> "[\n" <>
+          cond do
+            Keyword.keyword?(item) ->
+              _keyword(item, i + 1)
+            true ->
+              _list_dump(item, i + 1) <>
+              "\n"
+          end
+          <> _in(i) <> "]"
         end
-        <> _in(i) <> "]"
       end
 
       """
@@ -134,8 +138,30 @@ defmodule Expand.Mixin do
       defp _in(i) do
         "  " <> _in(i - 1)
       end
+
     end
   end
+end
+
+# Code adapted from https://github.com/elixir-lang/elixir/blob/master/lib/elixir/lib/inspect.ex
+defprotocol Printable do
+  @fallback_to_any true
+
+  def printable?(thing)
+end
+
+defimpl Printable, for: List do
+  def printable?([c|cs]) when is_integer(c) and c in 32..126, do: printable?(cs)
+  def printable?([?\n|cs]), do: printable?(cs)
+  def printable?([?\r|cs]), do: printable?(cs)
+  def printable?([?\t|cs]), do: printable?(cs)
+  def printable?([?\v|cs]), do: printable?(cs)
+  def printable?([?\b|cs]), do: printable?(cs)
+  def printable?([?\f|cs]), do: printable?(cs)
+  def printable?([?\e|cs]), do: printable?(cs)
+  def printable?([?\a|cs]), do: printable?(cs)
+  def printable?([]), do: true
+  def printable?(_), do: false
 end
 
 defmodule Expand do
